@@ -1,15 +1,17 @@
-export interface Color {
+export interface RGBColor {
   red: number;
   blue: number;
   green: number;
 }
+
+export type Color = RGBColor | HexColor;
 
 export interface HexColor {
   hexValue: string;
 }
 
 export interface Cell {
-  color: RGBColor | HexColor;
+  color: RGBColor;
   occupied: boolean;
 }
 
