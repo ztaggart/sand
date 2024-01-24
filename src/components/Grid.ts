@@ -1,4 +1,4 @@
-import { type Color, type Cell, EMPTY_COLOR } from '@/types/Color';
+import { type RGBColor, type Cell, EMPTY_COLOR } from '@/types/Color';
 // cell size in pixels
 export const CELL_SIZE = 10;
 
@@ -27,12 +27,41 @@ export default class Grid {
           const tmp = this.grid[i][j + 1];
           this.grid[i][j + 1] = this.grid[i][j];
           this.grid[i][j] = tmp;
+        } else if (
+          // if cell to bottom left and bottom right is empty and cell below isn't,
+          // put in in one of them
+          j < this.height - 1 &&
+          i > 0 &&
+          !this.grid[i - 1][j + 1].occupied &&
+          i < this.width - 1 &&
+          !this.grid[i + 1][j + 1].occupied
+        ) {
+          const rnd = Math.random();
+          if (rnd < 0.5) {
+            const tmp = this.grid[i - 1][j + 1];
+            this.grid[i - 1][j + 1] = this.grid[i][j];
+            this.grid[i][j] = tmp;
+          } else {
+            const tmp = this.grid[i + 1][j + 1];
+            this.grid[i + 1][j + 1] = this.grid[i][j];
+            this.grid[i][j] = tmp;
+          }
+        } else if (j < this.height - 1 && i > 0 && !this.grid[i - 1][j + 1].occupied) {
+          // if left empty, swap with left
+          const tmp = this.grid[i - 1][j + 1];
+          this.grid[i - 1][j + 1] = this.grid[i][j];
+          this.grid[i][j] = tmp;
+        } else if (j < this.height - 1 && i < this.width - 1 && !this.grid[i + 1][j + 1].occupied) {
+          // if right empty, swap right
+          const tmp = this.grid[i + 1][j + 1];
+          this.grid[i + 1][j + 1] = this.grid[i][j];
+          this.grid[i][j] = tmp;
         }
       }
     }
   }
 
-  insertCell(xpos: number, ypos: number, color: Color) {
+  insertCell(xpos: number, ypos: number, color: RGBColor) {
     if (xpos < 0 || xpos >= this.width || ypos < 0 || ypos >= this.height) {
       return;
     }
