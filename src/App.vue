@@ -45,6 +45,6 @@ function handleClick(event: MouseEvent) {
 }
 
 .sand-background {
-  background-image: url('sand_background.png');
+  background-image: url('../sand_background.png');
 }
 </style>
