@@ -46,7 +46,7 @@ export default class Grid {
         const cell = this.grid[i][j];
         if (cell.occupied) {
           context.fillStyle = `rgb(${cell.color.red} ${cell.color.green} ${cell.color.blue})`;
-          context.fillRect(i * CELL_SIZE, j * CELL_SIZE, 10, 10);
+          context.fillRect(i * CELL_SIZE, j * CELL_SIZE, CELL_SIZE, CELL_SIZE);
         }
       }
     }

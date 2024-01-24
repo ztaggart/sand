@@ -65,16 +65,18 @@ function drawSquare(x: number, y: number) {
   if (!context.value) {
     alert('something wrong, no context');
   }
-  console.log('x: ' + x);
-  console.log('y: ' + y);
 
   let cellXPos = Math.floor(x / CELL_SIZE); // % WIDTH_CELLS;
   let cellYPos = Math.floor(y / CELL_SIZE); // % HEIGHT_CELLS;
 
+  let { red, green, blue } = SAND_COLOR;
+
+  blue = blue + (Math.random() - 0.5) * 10;
+  green = green + (Math.random() - 0.5) * 10;
+  red = red + (Math.random() - 0.5) * 15;
+
   //update model
-  console.log('cellXPos: ' + cellXPos);
-  console.log('cellYPos: ' + cellYPos);
-  grid.value.insertCell(cellXPos, cellYPos, SAND_COLOR);
+  grid.value.insertCell(cellXPos, cellYPos, { red, green, blue });
 }
 
 function changeMousePos(event: MouseEvent) {
