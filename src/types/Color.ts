@@ -22,5 +22,6 @@ export const SAND_HEX_COLOR = '#d9a13f';
 
 export enum ColorTheme {
   RAINBOW = 'RAINBOW',
-  VOLCANIC = 'VOLCANIC'
+  VOLCANIC = 'VOLCANIC',
+  GUAC = 'GUAC'
 }
