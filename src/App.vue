@@ -71,6 +71,9 @@ function hexToRgb(hex: string): RGBColor {
           <button type="button" class="flex-1" @click="colorTheme = ColorTheme.VOLCANIC">
             Volcanic
           </button>
+          <button type="button" class="flex-1" @click="colorTheme = ColorTheme.GUAC">
+            Guacamole
+          </button>
         </div>
       </div>
     </div>

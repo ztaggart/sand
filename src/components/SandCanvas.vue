@@ -104,7 +104,6 @@ function updateColorTheme() {
       };
     } else if (color.green >= 255 && color.red > 0) {
       //decrease red
-      console.log('decrease red');
       currentColor.value = {
         red: Math.max(color.red - rand, 0),
         green: color.green,
@@ -112,7 +111,6 @@ function updateColorTheme() {
       };
     } else if (color.green >= 255 && color.red === 0 && color.blue < 255) {
       //increase blue
-      console.log('increase blue');
       currentColor.value = {
         red: color.red,
         green: color.green,
@@ -120,7 +118,6 @@ function updateColorTheme() {
       };
     } else if (color.blue >= 255 && color.green > 0) {
       //decrease green
-      console.log('decrease green');
       currentColor.value = {
         red: color.red,
         green: Math.max(color.green - rand, 0),
@@ -128,7 +125,6 @@ function updateColorTheme() {
       };
     } else if (color.blue >= 255 && color.green === 0 && color.red < 255) {
       // increase red
-      console.log('increase red');
       currentColor.value = {
         red: Math.min(color.red + rand - 1.25, 255), //slow it down
         green: color.green,
@@ -136,7 +132,6 @@ function updateColorTheme() {
       };
     } else if (color.red >= 255 && color.blue > 0) {
       // decrease blue
-      console.log('decrease blue');
       currentColor.value = {
         red: color.red,
         green: color.green,
@@ -157,8 +152,16 @@ function updateColorTheme() {
     } else {
       currentColor.value = { red: 51, green: 46, blue: 46 };
     }
+  } else if (props.colorTheme === ColorTheme.GUAC) {
+    let rand = Math.random();
+    if (rand < 0.035) {
+      currentColor.value = { red: 245, green: 62, blue: 42 }; // red
+    } else if (0.035 <= rand && rand <= 0.07) {
+      currentColor.value = { red: 208, green: 67, blue: 240 }; // purple
+    } else {
+      currentColor.value = { red: 150, green: 201, blue: 60 }; //green
+    }
   }
-  console.log(currentColor.value);
 }
 
 function changeMousePos(event: MouseEvent) {
