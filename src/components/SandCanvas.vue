@@ -66,15 +66,17 @@ function drawSquare(x: number, y: number) {
   let cellXPos = Math.floor(x / CELL_SIZE); // % WIDTH_CELLS;
   let cellYPos = Math.floor(y / CELL_SIZE); // % HEIGHT_CELLS;
 
+  if (props.colorTheme) {
+    updateColorTheme();
+  } else {
+    currentColor.value = props.initialColor;
+  }
+
   let { red, green, blue } = currentColor.value;
 
   blue = blue + (Math.random() - 0.5) * 15;
   green = green + (Math.random() - 0.5) * 15;
   red = red + (Math.random() - 0.5) * 15;
-
-  if (props.colorTheme) {
-    updateColorTheme();
-  }
 
   //update model
   grid.value.insertCell(cellXPos, cellYPos, { red, green, blue });
