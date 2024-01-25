@@ -2,7 +2,7 @@
 import { onMounted, ref } from 'vue';
 import Grid from './Grid';
 import { CELL_SIZE } from './Grid';
-import { SAND_COLOR, type RGBColor } from '@/types/Color';
+import { type RGBColor, ColorTheme } from '@/types/Color';
 
 const WIDTH = 500;
 const HEIGHT = 500;
@@ -11,7 +11,8 @@ const HEIGHT_CELLS = HEIGHT / CELL_SIZE;
 
 const props = defineProps<{
   mouseDown: boolean;
-  sandColor: RGBColor;
+  initialColor: RGBColor;
+  colorTheme: ColorTheme | null;
 }>();
 
 const canvas = ref<HTMLCanvasElement | null>(null);
@@ -19,6 +20,7 @@ const context = ref<CanvasRenderingContext2D | null>(null);
 const grid = ref<Grid>(new Grid(WIDTH_CELLS, HEIGHT_CELLS));
 const left = ref(false);
 const mousePos = ref({ x: 0, y: 0 });
+const currentColor = ref(props.initialColor);
 
 onMounted(() => {
   if (!canvas.value) {
@@ -64,7 +66,13 @@ function drawSquare(x: number, y: number) {
   let cellXPos = Math.floor(x / CELL_SIZE); // % WIDTH_CELLS;
   let cellYPos = Math.floor(y / CELL_SIZE); // % HEIGHT_CELLS;
 
-  let { red, green, blue } = props.sandColor;
+  if (props.colorTheme) {
+    updateColorTheme();
+  } else {
+    currentColor.value = props.initialColor;
+  }
+
+  let { red, green, blue } = currentColor.value;
 
   blue = blue + (Math.random() - 0.5) * 15;
   green = green + (Math.random() - 0.5) * 15;
@@ -72,6 +80,85 @@ function drawSquare(x: number, y: number) {
 
   //update model
   grid.value.insertCell(cellXPos, cellYPos, { red, green, blue });
+}
+
+/**
+ * If there's a theme, then update the current sand color based on that theme
+ */
+function updateColorTheme() {
+  if (props.colorTheme === ColorTheme.RAINBOW) {
+    let rand = Math.random() * 4;
+    let color = currentColor.value;
+    // to loop through colors:
+    // start at 255 0 0, then green to 255, then red to 0, then blue to 255,
+    // then green to 0, then red to 255, then blue to 0, and repeat
+    // https://stackoverflow.com/questions/29229713/iterating-over-rgb-continuously
+    if (color.red >= 255 && color.blue === 0 && color.green < 255) {
+      console.log('increase green');
+      //todo: keep more yellow, slow down the speed at which it becomes green
+      //increase green
+      currentColor.value = {
+        red: color.red,
+        green: Math.min(color.green + (color.green < 150 ? rand : rand - 1), 255),
+        blue: color.blue
+      };
+    } else if (color.green >= 255 && color.red > 0) {
+      //decrease red
+      console.log('decrease red');
+      currentColor.value = {
+        red: Math.max(color.red - rand, 0),
+        green: color.green,
+        blue: color.blue
+      };
+    } else if (color.green >= 255 && color.red === 0 && color.blue < 255) {
+      //increase blue
+      console.log('increase blue');
+      currentColor.value = {
+        red: color.red,
+        green: color.green,
+        blue: Math.min(color.blue + rand + 1, 255) // speed up
+      };
+    } else if (color.blue >= 255 && color.green > 0) {
+      //decrease green
+      console.log('decrease green');
+      currentColor.value = {
+        red: color.red,
+        green: Math.max(color.green - rand, 0),
+        blue: color.blue
+      };
+    } else if (color.blue >= 255 && color.green === 0 && color.red < 255) {
+      // increase red
+      console.log('increase red');
+      currentColor.value = {
+        red: Math.min(color.red + rand - 1.25, 255), //slow it down
+        green: color.green,
+        blue: color.blue
+      };
+    } else if (color.red >= 255 && color.blue > 0) {
+      // decrease blue
+      console.log('decrease blue');
+      currentColor.value = {
+        red: color.red,
+        green: color.green,
+        blue: Math.max(color.blue - rand, 0)
+      };
+    } else {
+      // start with red
+      currentColor.value = {
+        red: 255,
+        green: 0,
+        blue: 0
+      };
+    }
+  } else if (props.colorTheme === ColorTheme.VOLCANIC) {
+    let rand = Math.random();
+    if (rand < 0.025) {
+      currentColor.value = { red: 79, green: 14, blue: 0 };
+    } else {
+      currentColor.value = { red: 51, green: 46, blue: 46 };
+    }
+  }
+  console.log(currentColor.value);
 }
 
 function changeMousePos(event: MouseEvent) {
