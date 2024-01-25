@@ -2,7 +2,7 @@
 import { onMounted, ref } from 'vue';
 import Grid from './Grid';
 import { CELL_SIZE } from './Grid';
-import { SAND_COLOR } from '@/types/Color';
+import { SAND_COLOR, type RGBColor } from '@/types/Color';
 
 const WIDTH = 500;
 const HEIGHT = 500;
@@ -11,6 +11,7 @@ const HEIGHT_CELLS = HEIGHT / CELL_SIZE;
 
 const props = defineProps<{
   mouseDown: boolean;
+  sandColor: RGBColor;
 }>();
 
 const canvas = ref<HTMLCanvasElement | null>(null);
@@ -20,12 +21,6 @@ const left = ref(false);
 const mousePos = ref({ x: 0, y: 0 });
 
 onMounted(() => {
-  // window.addEventListener('resize', (event) => {
-  //     // if (canvas.value) {
-  //     //     canvas.value.width = window.innerWidth;
-  //     //     canvas.value.height = window.innerHeight;
-  //     // }
-  // })
   if (!canvas.value) {
     alert('canvas could not be created. something is wrong');
     return;
@@ -69,10 +64,10 @@ function drawSquare(x: number, y: number) {
   let cellXPos = Math.floor(x / CELL_SIZE); // % WIDTH_CELLS;
   let cellYPos = Math.floor(y / CELL_SIZE); // % HEIGHT_CELLS;
 
-  let { red, green, blue } = SAND_COLOR;
+  let { red, green, blue } = props.sandColor;
 
-  blue = blue + (Math.random() - 0.5) * 10;
-  green = green + (Math.random() - 0.5) * 10;
+  blue = blue + (Math.random() - 0.5) * 15;
+  green = green + (Math.random() - 0.5) * 15;
   red = red + (Math.random() - 0.5) * 15;
 
   //update model
@@ -109,12 +104,7 @@ function handleClick(event: MouseEvent) {
 
 <style scoped>
 #canvas {
-  /* padding: 10px; */
-  height: 500px;
-  width: 500px;
-  /* border: 5px solid black; */
   background-color: lightgrey;
-  /* margin: 1px */
 }
 </style>
 ./Grid
