@@ -1,13 +1,11 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 import Canvas from './components/SandCanvas.vue';
-import { SAND_HEX_COLOR, SAND_COLOR, type RGBColor } from '@/types/Color';
+import { SAND_HEX_COLOR, SAND_COLOR, type RGBColor, ColorTheme } from '@/types/Color';
 
 const mouseDown = ref(false);
 const color = ref<string>(SAND_HEX_COLOR);
-// const colorPicker = ref<HTMLInputElement | null>(null);
-
-// onMounted(() => {});
+const colorTheme = ref<ColorTheme | null>(null);
 
 function handleClick(event: MouseEvent) {
   if (event.button === 0) {
@@ -18,6 +16,7 @@ function handleClick(event: MouseEvent) {
 function changeColor(event: Event) {
   let target = event.target as HTMLInputElement;
   color.value = target.value;
+  colorTheme.value = null;
 }
 
 // https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
@@ -48,17 +47,40 @@ function hexToRgb(hex: string): RGBColor {
     <div class="flex-vertical">
       <div class="flex-middle flex-vertical">
         <h1>SAND</h1>
-        <p>Left click to draw, right click to clear</p>
+        <h5>Left click to draw, right click to clear</h5>
       </div>
-      <Canvas :mouse-down="mouseDown" :sand-color="hexToRgb(color)"></Canvas>
-      <div class="button-container">
-        <input type="color" @change="changeColor" v-model="color" />
+      <Canvas
+        :mouse-down="mouseDown"
+        :initial-color="hexToRgb(color)"
+        :color-theme="colorTheme"
+      ></Canvas>
+      <div class="flex-middle flex-vertical">
+        <h3>COLORS!</h3>
+        <div class="flex">
+          <div class="flex-middle">
+            <p>Color picker:&nbsp;</p>
+            <input type="color" @change="changeColor" v-model="color" />
+          </div>
+        </div>
+        <div class="flex">
+          <p>Themes: &nbsp;</p>
+          <button type="button" class="flex-1" @click="color = SAND_HEX_COLOR">Classic</button>
+          <button type="button" class="flex-1" @click="colorTheme = ColorTheme.RAINBOW">
+            Rainbow
+          </button>
+          <button type="button" class="flex-1" @click="colorTheme = ColorTheme.VOLCANIC">
+            Volcanic
+          </button>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
+.flex {
+  display: flex;
+}
 .flex-middle {
   display: flex;
   align-items: center;
