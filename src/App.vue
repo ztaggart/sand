@@ -59,7 +59,7 @@ function hexToRgb(hex: string): RGBColor {
         <div class="flex">
           <div class="flex-middle">
             <p>Color picker:&nbsp;</p>
-            <input type="color" @change="changeColor" v-model="color" />
+            <input type="color" @change="changeColor" v-model="color" @click="changeColor" />
           </div>
         </div>
         <div class="flex">
