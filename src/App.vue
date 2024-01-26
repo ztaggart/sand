@@ -62,16 +62,16 @@ function hexToRgb(hex: string): RGBColor {
             <input type="color" @change="changeColor" v-model="color" @click="changeColor" />
           </div>
         </div>
-        <div class="flex">
+        <div class="btn-container flex flex-space-between">
           <p>Themes: &nbsp;</p>
-          <button type="button" class="flex-1" @click="color = SAND_HEX_COLOR">Classic</button>
-          <button type="button" class="flex-1" @click="colorTheme = ColorTheme.RAINBOW">
+          <button type="button" class="button" @click="color = SAND_HEX_COLOR">Classic</button>
+          <button type="button" class="button" @click="colorTheme = ColorTheme.RAINBOW">
             Rainbow
           </button>
-          <button type="button" class="flex-1" @click="colorTheme = ColorTheme.VOLCANIC">
+          <button type="button" class="button" @click="colorTheme = ColorTheme.VOLCANIC">
             Volcanic
           </button>
-          <button type="button" class="flex-1" @click="colorTheme = ColorTheme.GUAC">
+          <button type="button" class="button" @click="colorTheme = ColorTheme.GUAC">
             Guacamole
           </button>
         </div>
@@ -90,6 +90,10 @@ function hexToRgb(hex: string): RGBColor {
   justify-content: center;
 }
 
+.flex-space-between {
+  justify-content: space-between;
+}
+
 .flex-vertical {
   display: flex;
   flex-direction: column;
@@ -98,6 +102,18 @@ function hexToRgb(hex: string): RGBColor {
 .hw-100 {
   height: 100%;
   width: 100%;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.button {
+  padding: 0 10px;
+}
+
+.btn-container {
+  min-width: 80%;
 }
 
 .sand-background {
