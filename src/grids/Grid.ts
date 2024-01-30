@@ -1,15 +1,16 @@
 import { type RGBColor, type Cell, EMPTY_COLOR } from '@/types/Color';
 // cell size in pixels
-export const CELL_SIZE = 5;
 
 export default class Grid {
   width: number;
   height: number;
+  cellSize: number;
   grid: Cell[][];
 
-  constructor(width: number, height: number) {
+  constructor(width: number, height: number, cellSize: number) {
     this.width = width;
     this.height = height;
+    this.cellSize = cellSize;
     this.grid = new Array(width);
     for (let i = 0; i < width; i++) {
       this.grid[i] = new Array<Cell>(height).fill({
@@ -66,6 +67,7 @@ export default class Grid {
 
   insertCell(xpos: number, ypos: number, color: RGBColor) {
     if (xpos < 0 || xpos >= this.width || ypos < 0 || ypos >= this.height) {
+      console.log('returning');
       return;
     }
     this.grid[xpos][ypos] = { color, occupied: true };
@@ -81,7 +83,7 @@ export default class Grid {
         }
         if (cell.occupied) {
           context.fillStyle = `rgb(${cell.color.red} ${cell.color.green} ${cell.color.blue})`;
-          context.fillRect(i * CELL_SIZE, j * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+          context.fillRect(i * this.cellSize, j * this.cellSize, this.cellSize, this.cellSize);
         }
       }
     }

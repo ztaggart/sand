@@ -1,12 +1,35 @@
-import './assets/main.css'
+import './assets/main.css';
 
-import { createApp } from 'vue'
-import { createPinia } from 'pinia'
+import { createApp } from 'vue';
+import { createPinia } from 'pinia';
 
-import App from './App.vue'
+import App from './App.vue';
+import { createRouter, createWebHistory } from 'vue-router';
+import CanvasContainerVue from './components/CanvasContainer.vue';
+import HomePageVue from './components/HomePage.vue';
+import TestVue from './components/Test.vue';
 
-const app = createApp(App)
+const router = createRouter({
+  history: createWebHistory('/sand'),
+  routes: [
+    {
+      path: '/classic',
+      component: CanvasContainerVue
+    },
+    {
+      path: '/hello',
+      component: TestVue
+    },
+    {
+      path: '/',
+      component: HomePageVue
+    }
+  ]
+});
 
-app.use(createPinia())
+const app = createApp(App);
 
-app.mount('#app')
+app.use(createPinia());
+app.use(router);
+
+app.mount('#app');

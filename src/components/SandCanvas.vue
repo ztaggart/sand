@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import Grid from './Grid';
-import { CELL_SIZE } from './Grid';
+import Grid from '../grids/Grid';
 import { type RGBColor, ColorTheme } from '@/types/Color';
 
 const WIDTH = 500;
 const HEIGHT = 500;
+const CELL_SIZE = 5;
 const WIDTH_CELLS = WIDTH / CELL_SIZE;
 const HEIGHT_CELLS = HEIGHT / CELL_SIZE;
 
@@ -17,7 +17,7 @@ const props = defineProps<{
 
 const canvas = ref<HTMLCanvasElement | null>(null);
 const context = ref<CanvasRenderingContext2D | null>(null);
-const grid = ref<Grid>(new Grid(WIDTH_CELLS, HEIGHT_CELLS));
+const grid = ref<Grid>(new Grid(WIDTH_CELLS, HEIGHT_CELLS, CELL_SIZE));
 const left = ref(false);
 const mousePos = ref({ x: 0, y: 0 });
 const currentColor = ref(props.initialColor);
@@ -197,4 +197,4 @@ function handleClick(event: MouseEvent) {
   background-color: lightgrey;
 }
 </style>
-./Grid
+./Grid ../grids/Grid

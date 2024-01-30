@@ -12,6 +12,22 @@ body {
   box-sizing: border-box;
 }
 
+.btn {
+  padding: 0.3em 0.3em;
+  background-color: var(--side-btn-color);
+  border-radius: 5px;
+}
+
+.btn-link {
+  cursor: pointer;
+}
+
+:root {
+  --main-bg-color: #CBF3F0;
+  --main-btn-color: #2EC4B6;
+  --side-btn-color: #ffcc89;
+}
+
 /* html {
   background-color: red;
 }
