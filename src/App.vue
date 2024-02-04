@@ -3,7 +3,6 @@ import { computed } from 'vue';
 import { RouterView, RouterLink, useRoute } from 'vue-router';
 const route = useRoute();
 const currentRoute = computed(() => route.path);
-console.log(currentRoute);
 </script>
 
 <template>

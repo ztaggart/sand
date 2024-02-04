@@ -67,7 +67,6 @@ export default class Grid {
 
   insertCell(xpos: number, ypos: number, color: RGBColor) {
     if (xpos < 0 || xpos >= this.width || ypos < 0 || ypos >= this.height) {
-      console.log('returning');
       return;
     }
     this.grid[xpos][ypos] = { color, occupied: true };
