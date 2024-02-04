@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 import Grid from '../grids/Grid';
 import { type RGBColor, ColorTheme } from '@/types/Color';
 
-const WIDTH = 500;
-const HEIGHT = 500;
+const WIDTH = 700;
+const HEIGHT = 700;
 const CELL_SIZE = 5;
 const WIDTH_CELLS = WIDTH / CELL_SIZE;
 const HEIGHT_CELLS = HEIGHT / CELL_SIZE;
@@ -21,6 +21,7 @@ const grid = ref<Grid>(new Grid(WIDTH_CELLS, HEIGHT_CELLS, CELL_SIZE));
 const left = ref(false);
 const mousePos = ref({ x: 0, y: 0 });
 const currentColor = ref(props.initialColor);
+const reqId = ref(0);
 
 onMounted(() => {
   if (!canvas.value) {
@@ -39,6 +40,10 @@ onMounted(() => {
   animate();
 });
 
+onUnmounted(() => {
+  cancelAnimationFrame(reqId.value);
+});
+
 function animate() {
   if (!context.value) {
     return;
@@ -55,7 +60,7 @@ function animate() {
   //redraw
   grid.value.redraw(context.value);
 
-  requestAnimationFrame(animate);
+  reqId.value = requestAnimationFrame(animate);
 }
 
 function drawSquare(x: number, y: number) {
@@ -94,7 +99,6 @@ function updateColorTheme() {
     // then green to 0, then red to 255, then blue to 0, and repeat
     // https://stackoverflow.com/questions/29229713/iterating-over-rgb-continuously
     if (color.red >= 255 && color.blue === 0 && color.green < 255) {
-      console.log('increase green');
       //todo: keep more yellow, slow down the speed at which it becomes green
       //increase green
       currentColor.value = {
